@@ -1,22 +1,20 @@
 module.exports = function check(str, bracketsConfig) {
+    if (str === undefined || bracketsConfig === undefined) return false
 
-    let brackets = "[]{}()<>"
-    let stack = []
+    str = str.split('')
 
-    for (let bracket of str) {
-        let bracketsIndex = brackets.indexOf(bracket)
+    for (let i = 0; i < bracketsConfig.length; i++) {
+        let left = bracketsConfig[i][0]
+        let right = bracketsConfig[i][1]
 
-        if (bracketsIndex === -1) {
-            continue
-        }
-
-        if (bracketsIndex % 2 === 0) {
-            stack.push(bracketsIndex + 1)
-        } else {
-            if (stack.pop() !== bracketsIndex) {
-                return false;
+        for (let j = 0; j < str.length; j++) {
+            if (str[j] === left && str[j + 1] === right) {
+                str.splice(j, 2)
+                i = j = -1
             }
         }
     }
-    return stack.length === 0
+    return !(str.length)
 }
+
+
